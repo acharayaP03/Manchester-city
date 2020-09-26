@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tags } from '../../Utils/Tags';
-
+import Blocks from './Blocks';
 function Matches() {
     return (
         <div className="home_matches_wrapper">
@@ -14,7 +14,7 @@ function Matches() {
                     Matches
                 </Tags>
 
-                Matches
+                <Blocks />
 
                 <Tags
                    bck="#ffffff"
