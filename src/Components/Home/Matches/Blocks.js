@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { matches } from '../../../firebase';
 import {firebaseLooper, reversedArr} from '../../Utils/Tags';
+import RcBlocks from '../../Utils/RcBlocks'
+import Slide from 'react-reveal/Slide'; 
 
-export default class Blocks extends Component {
+class Blocks extends Component {
     state={
         matches: []
     }
@@ -17,14 +19,23 @@ export default class Blocks extends Component {
             this.setState({
                 matches: match.reverse()
             })
-            //console.log(match)
+            console.log(match.id)
         })
     }
 
-    showMathces =()=>(
-        <div>
-            Mathces
-        </div>
+    showMathces =(matches)=>(
+        matches ?
+            matches.map((m) =>
+            <Slide bottom key={m.id} >
+                <div className="item">
+                    <div className="wrapper">
+                        <RcBlocks match={m} />
+                    </div>
+                </div>
+            </Slide>
+
+            ) 
+        : null
     )
     render() {
         console.log(this.state.matches)
@@ -35,3 +46,5 @@ export default class Blocks extends Component {
         )
     }
 }
+
+export default Blocks;
