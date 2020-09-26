@@ -16,8 +16,31 @@ export const Tags = (props) => {
                         {props.children}
                     </div>
 
-                    
-    return (props.link) ? <Link to={ props.linkTo }> {template}</Link> : template 
-}
 
+    return (props.link) ? <Link to={ props.linkTo }> {template}</Link> : template 
+};
+
+export const firebaseLooper = (results) =>{
+    const data = [];
+    results.forEach((childSnapshot) =>{
+        data.push({
+            ...childSnapshot.val(),
+            id: childSnapshot.key
+        })
+    })
+    return data;
+};
+
+
+export const reversedArr = (originalArr) =>{
+
+    let reversedArray = originalArr.reverse();
+    // let reversedArray = [];
+
+    // for(let i = originalArr.length - 1; i>=0; i--){
+    //     reversedArray.push(originalArr[i]);
+    // }
+
+    return reversedArray;
+}
 
