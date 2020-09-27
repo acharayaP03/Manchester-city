@@ -1,7 +1,7 @@
 import React from 'react'
 
 const RcBlocks = ({match}) =>{
-    console.log(match)
+    //Check if match is available -> console.log(match)
     return (
         <div className="match_block">
             <div className="match_date">
