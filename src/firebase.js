@@ -27,10 +27,11 @@ const DOMAIN = process.env.AUTH_DOMAIN
 
   const db = firebase.database();
   const matches = db.ref('matches');
-
+  const promotions = db.ref('promotions');
   export {
       firebase,
-      matches
+      matches,
+      promotions
   }
 //   db.ref('matches').once('value').then((result)=>{
 //       console.log(result.val());
