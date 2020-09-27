@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+//Resuable Tags component-> will either display normal tags or link if the {link is boolean true}
+//additional ...props.add is passed to the actual imported component if we need additional styles.
 export const Tags = (props) => {
     const template = <div
                         style={{
@@ -9,8 +11,8 @@ export const Tags = (props) => {
                             color: props.color,
                             padding: '5px 10px',
                             display: 'inline-block',
-                            fontFamily: 'Righteous'
-                            
+                            fontFamily: 'Righteous',
+                            ...props.add
                         }}
                     >
                         {props.children}
@@ -20,6 +22,7 @@ export const Tags = (props) => {
     return (props.link) ? <Link to={ props.linkTo }> {template}</Link> : template 
 };
 
+//Fire base result looper 
 export const firebaseLooper = (results) =>{
     const data = [];
     results.forEach((childSnapshot) =>{
@@ -35,12 +38,6 @@ export const firebaseLooper = (results) =>{
 export const reversedArr = (originalArr) =>{
 
     let reversedArray = originalArr.reverse();
-    // let reversedArray = [];
-
-    // for(let i = originalArr.length - 1; i>=0; i--){
-    //     reversedArray.push(originalArr[i]);
-    // }
-
     return reversedArray;
 }
 
