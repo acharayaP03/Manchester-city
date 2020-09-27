@@ -8,7 +8,6 @@ dotenv.config({path: './config.env'})
 
 const API_KEY = process.env.FIREBASE_API_KEY;
 const DOMAIN = process.env.AUTH_DOMAIN
-const DB_URL = process.env.DATABASE_URL
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
