@@ -3,23 +3,24 @@ import dotenv from 'dotenv';
 import firebase from 'firebase/app';
 import 'firebase/app';
 import 'firebase/database';
+import 'firebase/auth';
 
-dotenv.config({path: './config.env'})
+dotenv.config()
 
-const API_KEY = process.env.FIREBASE_API_KEY;
-const DOMAIN = process.env.AUTH_DOMAIN
+const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
+const DOMAIN = process.env.REACT_APP_AUTH_DOMAIN
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
   var firebaseConfig = {
     apiKey: API_KEY,
     authDomain: DOMAIN,
-    databaseURL: "https://m-city-4ae6e.firebaseio.com",
-    projectId: process.env.PROJECTID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECTID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
