@@ -22,7 +22,10 @@ export const Tags = (props) => {
     return (props.link) ? <Link to={ props.linkTo }> {template}</Link> : template 
 };
 
-//Fire base result looper 
+/**
+ * @param looper 
+ * Fire base result looper  
+ */
 export const firebaseLooper = (results) =>{
     const data = [];
     results.forEach((childSnapshot) =>{
@@ -34,12 +37,21 @@ export const firebaseLooper = (results) =>{
     return data;
 };
 
-
+/**
+ * 
+ * @param reverse originalArr 
+ */
 export const reversedArr = (originalArr) =>{
 
     let reversedArray = originalArr.reverse();
     return reversedArray;
 }
+
+/**
+ * 
+ * @param {validate} element 
+ * @validate email fields
+ */
 
 export const validate = (element) =>{
      
