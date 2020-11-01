@@ -24,12 +24,43 @@ const Forms = ({ id, formData, handleChange }) => {
                 // handleChange must receive event and id as an object.
                 formTemplate = (
 
-                    <div>
+                    <div>  
+                        {
+                            formData.showLabel ?
+                                <div className="label_inputs">
+                                    {formData.config.label}
+                                </div>
+                                : null
+                        }
                         <input 
                             {...formData.config}
                             value={formData.value}
                             onChange={(event) => handleChange({event, id})}
                         />
+                        {showError()}
+                    </div>
+                )
+                break;
+            case('select'):
+                formTemplate = (
+                    <div>  
+                        {
+                            formData.showLabel ?
+                                <div className="label_inputs">
+                                    {formData.config.label}
+                                </div>
+                                : null
+                        }
+                        <select value={formData.value} onChange={(event) => handleChange({event, id})}>
+                            <option value="">Select One</option>
+                            {
+                                formData.config.options.map((item) =>(
+                                    <option value={item.key} key={item.key}>
+                                        {item.value}
+                                    </option>
+                                ))
+                            }
+                        </select>
                         {showError()}
                     </div>
                 )
