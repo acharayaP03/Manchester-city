@@ -4,6 +4,7 @@ import { firebaseLooper } from '../../Utils/Tags';
 import AdminLayouts from '../../../Hocs/Admin_layout';
 import Forms from '../../Utils/Forms';
 import {validate} from '../../Utils/Tags';
+import FileUploader from "../../Utils/FileUploader";
 
 export default class AdminAddPlayers extends Component {
     
@@ -80,6 +81,14 @@ export default class AdminAddPlayers extends Component {
                 valid:false,
                 validationMessage: '',
                 showLabel: false
+            },
+            image:{
+                element: 'image',
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: true
             }
         }
     }
@@ -118,6 +127,10 @@ export default class AdminAddPlayers extends Component {
         })
     }
 
+    resetImage(){
+        
+    }
+
     handleSubmit(event){
         event.preventDefault();
 
@@ -138,6 +151,16 @@ export default class AdminAddPlayers extends Component {
                 <div className="editplayers_dialog_wrapper">
                     <h2>{this.state.formType}</h2>
                     <form onSubmit={(event) => { this.handleSubmit(event)}}>
+
+                        <FileUploader
+                            dir="players"
+                            tag="Player image"
+                            defaultImage={this.state.defaultImage}
+                            defaultImageName={this.state.formData.image.value}
+                            resetImage={()=> this.resetImage()}
+                            filename={(filename) =>this.storeFilename(filename)} 
+                        />
+
                         <Forms
                             id ={'name'}
                             formData={name}
