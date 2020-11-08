@@ -9,6 +9,7 @@ import PrivateRoutes from "./Components/AuthRoutes/PrivateRoutes";
 import PublicRoutes from "./Components/AuthRoutes/PublicRoutes";
 import Admin_Matches from "./Components/admin/AdminMatches";
 import AddEditMatches from "./Components/admin/AdminMatches/AddEditMatches";
+import AdminPlayers from "./Components/admin/Players";
 /**
  * 
  * @param all the props will be passed to the PrivateRoutes which will authenticate if the user is logged in or not.
@@ -25,6 +26,7 @@ const Routes = (props) => {
                 <PrivateRoutes {...props} restricted={false} exact path="/admin_matches" component={Admin_Matches} />
                 <PrivateRoutes {...props} path="/admin_matches/edit_match" exact component={AddEditMatches}/>
                 <PrivateRoutes {...props} restricted={false} exact path="/admin_matches/edit_match/:id" component={AddEditMatches} />
+                <PrivateRoutes {...props} restricted={false} exact path="/admin_players" component={AdminPlayers} />
             </Switch>
         </Layouts>
     )

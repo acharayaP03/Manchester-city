@@ -30,11 +30,13 @@ const DOMAIN = process.env.REACT_APP_AUTH_DOMAIN
   const matches = db.ref('matches');
   const promotions = db.ref('promotions');
   const teams = db.ref('teams');
+  const players = db.ref('players');
   export {
       firebase,
       matches,
       promotions,
       teams,
+      players,
       db,
   }
 //   db.ref('matches').once('value').then((result)=>{
