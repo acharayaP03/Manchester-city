@@ -52,7 +52,7 @@ export default class AddEditMatches extends Component {
                 config:{
                     label: 'Result Local',
                     name: 'result_local_input',
-                    type: 'teext',
+                    type: 'text',
                 },
                 validation: {
                     required: true,
@@ -82,7 +82,7 @@ export default class AddEditMatches extends Component {
                 element: 'input',
                 value: '',
                 config:{
-                    label: 'Result Away',
+                    label: 'Result Local',
                     name: 'result_away_input',
                     type: 'text',
                 },
@@ -93,13 +93,13 @@ export default class AddEditMatches extends Component {
                 validationMessage: '',
                 showLabel: false
             },
-            refree: {
+            referee: {
                 element: 'input',
                 id: 'refree',
                 value: '',
                 config:{
                     label: 'Refree',
-                    name: 'refree',
+                    name: 'referee_input',
                     type: 'text',
                     placeholder: 'Refree Details'
                 },
@@ -187,6 +187,7 @@ export default class AddEditMatches extends Component {
     updateForm(element){
 
         const newFormData = { ...this.state.formData };
+        console.log(this.state.formData)
 
         const newElement = {...newFormData[element.id]};
         newElement.value = element.event.target.value;
@@ -239,28 +240,28 @@ export default class AddEditMatches extends Component {
      */
 
     componentDidMount(){
-        const matchid = this.props.match.params.id;
+        const matchId = this.props.match.params.id;
         const getTeams= (match, type) =>{
-            teams.once('value').then((response) => {
-                const teams = firebaseLooper(response);
+            teams.once('value').then((snapshot) => {
+                const teams = firebaseLooper(snapshot);
                 const teamOptions = [];
 
-                console.log(teams)
-                response.forEach((snapshot) =>{
+                snapshot.forEach((childSnapshot) =>{
                     teamOptions.push({
-                        key: snapshot.val().shortName,
-                        value: snapshot.val().shortName
+                        key: childSnapshot.val().shortName,
+                        value: childSnapshot.val().shortName
                     })
                 })
                 //console.log(teamOptions)
-                this.updateFields(match, teamOptions, teams, type, matchid)
+                this.updateFields(match, teamOptions, teams, type, matchId)
 
             })
         }
-        if(!matchid){
+        if(!matchId){
             //show add form
+            getTeams(false, 'Add Match');
         }else{
-            db.ref(`matches/${matchid}`).once('value')
+            db.ref(`matches/${matchId}`).once('value')
             .then( (result) =>{
                 const match = result.val();
                 getTeams(match, 'Edit Match');
@@ -268,15 +269,65 @@ export default class AddEditMatches extends Component {
         }
     }
 
+    successForm(message){
+        this.setState({ 
+            formSuccess : message
+        })
+
+        setTimeout(() =>{
+            this.setState({
+                formSuccess: ''
+            })
+        }, 2000)
+    }
+
+    handleSubmit(event){
+        event.preventDefault();
+
+        let data = {};
+        let formIsValid = true;
+
+        for (let key in this.state.formData){
+            data[key] = this.state.formData[key].value;
+            formIsValid = this.state.formData[key].value && formIsValid;
+        }
+
+        // get the thumb nail and push it to the state
+
+        this.state.teams.forEach( team =>{
+            if(team.shortName === data.local){
+                data['localThmb'] = team.thmb;
+            }
+            if(team.shortName === data.away){
+                data['awayThmb'] = team.thmb;
+            }
+        }) 
+
+        if(formIsValid){
+            if(this.state.formType == 'Edit Match'){
+                db.ref(`matches/${this.state.matchId}`).update(data).then(()=>{
+                    this.successForm('Match Updated successfully')
+                }).catch((e) =>{
+                    this.setState({ formError : true});
+                })
+            }else{
+
+            }
+        }else{
+            this.setState({ formError: true});
+        }
+    }
+
     render() {
+        const {date, local, away, referee, result, final, stadium ,resultLocal, resultAway} = this.state.formData;
         return (
             <AdminLayouts>
                 <div className="editmatch_dialog_wrapper">
                     <h2>{this.state.formType}</h2>
-                    <form onSubmit={(event) =>this.handelSubmit()}>
+                    <form onSubmit={(event) => this.handelSubmit(event)}>
                         <Forms
                             id={'date'}
-                            formData = {this.state.formData.date}
+                            formData = {date}
                             handleChange={(element)=>{ this.updateForm(element)}}
                         />
 
@@ -288,14 +339,14 @@ export default class AddEditMatches extends Component {
                                 <div className="left">
                                     <Forms
                                         id={'local'}
-                                        formData = {this.state.formData.local}
+                                        formData = {local}
                                         handleChange={(element)=>{ this.updateForm(element)}}
                                     />
                                 </div>
                                 <div>
                                     <Forms
-                                        id={'local'}
-                                        formData = {this.state.formData.resultLocal}
+                                        id={'resultLocal'}
+                                        formData = {resultLocal}
                                         handleChange={(element)=>{ this.updateForm(element)}}
                                     />
                                 </div>
@@ -309,14 +360,14 @@ export default class AddEditMatches extends Component {
                                 <div className="left">
                                     <Forms
                                         id={'away'}
-                                        formData = {this.state.formData.away}
+                                        formData = {away}
                                         handleChange={(element)=>{ this.updateForm(element)}}
                                     />
                                 </div>
                                 <div>
                                     <Forms
-                                        id={'result_away'}
-                                        formData = {this.state.formData.resultAway}
+                                        id={'resultAway'}
+                                        formData = {resultAway}
                                         handleChange={(element)=>{ this.updateForm(element)}}
                                     />
                                 </div>
@@ -324,25 +375,25 @@ export default class AddEditMatches extends Component {
                         </div>
                         <div className="split_fields">
                             <Forms
-                                id={'refree'}
-                                formData = {this.state.formData.refree}
+                                id={'referee'}
+                                formData = {referee}
                                 handleChange={(element)=>{ this.updateForm(element)}}
                             />
                             <Forms
                                 id={'stadium'}
-                                formData = {this.state.formData.stadium}
+                                formData = {stadium}
                                 handleChange={(element)=>{ this.updateForm(element)}}
                             />
                         </div>
                         <div className="split_fields last">
                             <Forms
-                                id={'restult'}
-                                formData = {this.state.formData.result}
+                                id={'result'}
+                                formData = {result}
                                 handleChange={(element)=>{ this.updateForm(element)}}
                             />
                              <Forms
                                 id={'final'}
-                                formData = {this.state.formData.final}
+                                formData = {final}
                                 handleChange={(element)=>{ this.updateForm(element)}}
                             />
                         </div>
@@ -353,7 +404,7 @@ export default class AddEditMatches extends Component {
                         }
 
                         <div className="admin_submit">
-                            <button onClick={(event) =>this.submitForm(event)}>
+                            <button onClick={(event) =>this.handleSubmit(event)}>
                                 {this.state.formType}
                             </button>
                         </div>
