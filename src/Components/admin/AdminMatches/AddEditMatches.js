@@ -311,7 +311,13 @@ export default class AddEditMatches extends Component {
                     this.setState({ formError : true});
                 })
             }else{
-
+                // if the form is add form 
+                matches.push(data).then(() =>{
+                    console.log(data)
+                    this.props.history.push('/admin_matches');
+                }).catch((e) =>{
+                    this.setState({ formError: true})
+                })
             }
         }else{
             this.setState({ formError: true});
