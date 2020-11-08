@@ -15,7 +15,7 @@ import AddEditMatches from "./Components/admin/AdminMatches/AddEditMatches";
  *  
  */
 const Routes = (props) => {
-    console.log(props);
+    // console.log(props);
     return (
         <Layouts>
             <Switch>
@@ -23,6 +23,7 @@ const Routes = (props) => {
                 <PublicRoutes {...props} restricted={true} exact component={SignIn} path="/sign_in"/>
                 <PrivateRoutes {...props} restricted={false} exact path="/dashboard" component={Dashboard} />
                 <PrivateRoutes {...props} restricted={false} exact path="/admin_matches" component={Admin_Matches} />
+                <PrivateRoutes {...props} path="/admin_matches/edit_match" exact component={AddEditMatches}/>
                 <PrivateRoutes {...props} restricted={false} exact path="/admin_matches/edit_match/:id" component={AddEditMatches} />
             </Switch>
         </Layouts>
