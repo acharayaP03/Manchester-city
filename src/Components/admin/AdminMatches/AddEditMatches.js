@@ -304,7 +304,7 @@ export default class AddEditMatches extends Component {
         }) 
 
         if(formIsValid){
-            if(this.state.formType == 'Edit Match'){
+            if(this.state.formType === 'Edit Match'){
                 db.ref(`matches/${this.state.matchId}`).update(data).then(()=>{
                     this.successForm('Match Updated successfully')
                 }).catch((e) =>{
