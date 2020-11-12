@@ -107,13 +107,16 @@ export default class AdminAddPlayers extends Component {
          }
     }
 
-    updateForm(element){
+    updateForm(element, content = ''){
 
         const newFormData = { ...this.state.formData };
-        console.log(this.state.formData)
-
+        //console.log(this.state.formData)
         const newElement = {...newFormData[element.id]};
-        newElement.value = element.event.target.value;
+        if(content === ''){
+            newElement.value = element.event.target.value;
+        }else{
+            newElement.value = content;
+        }
 
         let validData = validate(newElement);
 
@@ -127,8 +130,20 @@ export default class AdminAddPlayers extends Component {
         })
     }
 
-    resetImage(){
-        
+    resetImage = ()=>{
+        const newFormData = { ...this.state.formData};
+        newFormData['image'].valid = '';
+        newFormData['image'].valid = false;
+
+        this.setState({
+            defaultImage: '',
+            formData: newFormData
+        })
+    }
+
+    storeFilename = (filename)=>{
+
+        this.updateForm({id: 'image'}, filename)
     }
 
     handleSubmit(event){
@@ -143,9 +158,28 @@ export default class AdminAddPlayers extends Component {
         }
 
         // get the thumb nail and push it to the state
+        if(formIsValid){
+
+            if(this.state.formType === 'Edit player'){
+                //edit form
+            }else{
+                players.push(data).then(() =>{
+                    this.props.history.push('/admin_players')
+                }).catch(e =>{
+                    this.setState({
+                        formError: true
+                    })
+                })
+            }
+        }else{
+            this.setState({
+                formError: true
+            })
+        }
     }
     render() {
         const { name, lastname, number, position} = this.state.formData;
+        console.log(this.state.formData)
         return (
             <AdminLayouts>
                 <div className="editplayers_dialog_wrapper">
