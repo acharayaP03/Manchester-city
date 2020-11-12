@@ -93,16 +93,45 @@ export default class AdminAddPlayers extends Component {
         }
     }
 
-    componentDidMount(){
-         const player = this.props.match.params.id;
+    updateFields = (player, playerId, formType, defaultImage) =>{
 
-         if(!player){
+        const newFormData = { ...this.state.formData };
+
+        for(let key in newFormData){
+            newFormData[key].value = player[key];
+            newFormData[key].valid = true
+        }
+
+        this.setState({
+            playerId,
+            formType,
+            defaultImage,
+            formData: newFormData
+        })
+    }
+
+    componentDidMount(){
+         const playerId = this.props.match.params.id;
+
+         if(!playerId){
              this.setState({
                  formType: "Add Player",
              })
          }else{
-             this.setState({
-                 formType: "Edit Player"
+             db.ref(`players/${playerId}`).once('value')
+             .then(result =>{
+                 const playerData = result.val();
+                 firebase.storage().ref('players').child(playerData.image).getDownloadURL()
+                 .then( url =>{
+                     this.updateFields(playerData, playerId, 'Edit player', url)
+                 }).catch(e =>{
+                     this.updateFields({
+                         ...playerData, 
+                         image: ''
+                     },
+                     playerId, 'Edit player', ''
+                     )
+                 })
              })
          }
     }
@@ -145,6 +174,16 @@ export default class AdminAddPlayers extends Component {
 
         this.updateForm({id: 'image'}, filename)
     }
+    successForm = (message) =>{
+        this.setState({
+            formSuccess: message
+        })
+        setTimeout(()=>{
+            this.setState({
+                formSuccess: ''
+            })
+        }, 2000)
+    }
 
     handleSubmit(event){
         event.preventDefault();
@@ -161,7 +200,14 @@ export default class AdminAddPlayers extends Component {
         if(formIsValid){
 
             if(this.state.formType === 'Edit player'){
-                //edit form
+                
+                db.ref(`players/${this.state.playerId}`)
+                .update(data)
+                .then(() =>{
+                    this.successForm('Update successfull.')
+                }).catch(e =>{
+                    this.setState({formError: true})
+                })
             }else{
                 players.push(data).then(() =>{
                     this.props.history.push('/admin_players')
