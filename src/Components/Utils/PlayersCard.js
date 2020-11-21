@@ -9,6 +9,7 @@ const PlayersCard =(props) => {
                 }}
             >
             </div>
+            
             <div className="player_card_nfo">
                 <div className="player_card_number">{props.number}</div>
             </div>
