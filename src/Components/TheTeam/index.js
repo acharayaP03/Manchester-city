@@ -94,7 +94,7 @@ export default class TheTeam extends Component {
                             </div>
                         </div>
                         <div className="team_category_wrapper">
-                            <div className="title">Strikers</div>
+                            <div className="title">Striker</div>
                             <div className="team_cards">
                                 {this.showPlayersByCategory('Striker')}
                             </div>
