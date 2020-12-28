@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {db, firebase, players} from '../../../firebase';
-import { firebaseLooper } from '../../Utils/Tags';
 import AdminLayouts from '../../../Hocs/Admin_layout';
 import Forms from '../../Utils/Forms';
 import {validate} from '../../Utils/Tags';

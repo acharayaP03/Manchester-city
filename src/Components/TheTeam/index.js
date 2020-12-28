@@ -3,7 +3,7 @@ import PlayersCard from '../Utils/PlayersCard';
 import Fade from 'react-reveal';
 import {Promise} from 'core-js';
 import Stripes from '../../Resources/images/stripes.png';
-import { players, firebase, db } from '../../firebase';
+import { players, firebase} from '../../firebase';
 import { firebaseLooper } from '../Utils/Tags'
 
 export default class TheTeam extends Component {
