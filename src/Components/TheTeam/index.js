@@ -22,7 +22,7 @@ export default class TheTeam extends Component {
             const players = firebaseLooper(result);
             let promises = [];
 
-            console.log(players)
+            // console.log(players)
             for (let key in players){
                 promises.push(
                     new Promise((resolve, reject) =>{
@@ -69,7 +69,7 @@ export default class TheTeam extends Component {
         :null
     )
     render() {
-        console.log(this.state.players)
+        // console.log(this.state.players)
         return (
             <div className="the_team_container" style={{background: `url(${Stripes}) repeat`}}>
             {
