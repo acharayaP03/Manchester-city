@@ -224,7 +224,7 @@ export default class AdminAddPlayers extends Component {
     }
     render() {
         const { name, lastname, number, position} = this.state.formData;
-        console.log(this.state.formData)
+        // console.log(this.state.formData)
         return (
             <AdminLayouts>
                 <div className="editplayers_dialog_wrapper">
