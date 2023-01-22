@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project overview
+***
+This project is bootstrapped with create-react-app.
+Under the hood, it uses React React hooks, Formik and fire base as a database.
+
+![image](https://user-images.githubusercontent.com/42729832/213906255-7af24112-154b-4abb-bdd9-9af6e016824a.png)
+
 
 ## Available Scripts
 
